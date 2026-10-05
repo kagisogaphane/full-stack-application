@@ -17,14 +17,21 @@ namespace Expenses.API.Controllers
                 Type = payload.Type,
                 Amount = payload.Amount,
                 Category = payload.Category,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
 
             context.Transactions.Add(transaction);
             context.SaveChanges();
 
             return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult GetTransactions()
+        {
+            var AllTransactions = context.Transactions.ToList();
+            return Ok(AllTransactions);
         }
     }
 }
