@@ -33,5 +33,7 @@ namespace Expenses.API.Controllers
             var AllTransactions = context.Transactions.ToList();
             return Ok(AllTransactions);
         }
+
+        //ADD READ BY ID ENDPOINT
     }
 }
