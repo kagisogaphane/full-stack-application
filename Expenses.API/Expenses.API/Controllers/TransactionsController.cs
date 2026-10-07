@@ -19,7 +19,7 @@ namespace Expenses.API.Controllers
         }
 
 
-        [HttpGet("Get/{id}")]
+        [HttpGet("Details/{id}")]
         public IActionResult GetTranscation(int id)
         {
             var transaction = context.Transactions.FirstOrDefault(n => n.Id == id);
@@ -31,7 +31,7 @@ namespace Expenses.API.Controllers
         }
 
         [HttpPost("Create")]
-        public IActionResult CreateTransaction([FromBody] TransactionDto payload)
+        public IActionResult CreateTransaction([FromBody] PostTransactionDto payload)
         {
             var transaction = new Models.Transaction
             {
@@ -46,6 +46,24 @@ namespace Expenses.API.Controllers
             context.SaveChanges();
 
             return Ok();
+        }
+
+        [HttpPut("Update/{id}")]
+        public IActionResult UpdateTransaction(int id, [FromBody] PostTransactionDto payload)
+        {
+            var transaction = context.Transactions.FirstOrDefault(n => n.Id == id);
+            if (transaction ==null)
+                return NotFound();
+
+            transaction.Type = payload.Type;
+            transaction.Amount = payload.Amount;
+            transaction.Category = payload.Category;
+            transaction.UpdatedAt = DateTime.Now;
+
+            context.Transactions.Update(transaction);
+            context.SaveChanges();
+
+            return Ok(transaction);
         }
 
 
