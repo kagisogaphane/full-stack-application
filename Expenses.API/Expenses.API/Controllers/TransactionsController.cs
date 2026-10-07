@@ -66,6 +66,19 @@ namespace Expenses.API.Controllers
             return Ok(transaction);
         }
 
+        [HttpDelete("Delete/{id}")]
+        public IActionResult DeleteTransaction(int id)
+        {
+            var transaction = context.Transactions.FirstOrDefault(n => n.Id == id);
+
+            if (transaction == null)
+                return NotFound();
+
+            context.Transactions.Remove(transaction);
+            context.SaveChanges();
+            return Ok();
+        }
+
 
     }
 }
